@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous">
+</link>
+
+<!-- Optional theme -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+	integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+	crossorigin="anonymous">
+</link>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<script th:inline = "javascript">
+/*<![CDATA[*/
+function doLogin(){
+	
+	var baseUrl = "localhost:9000/identity/oauth/token?";
+	var baseConfig = "grant_type=password&client_id=tin&client_secret=abc123&redirect_uri=http://www.xyz.com&";
+	
+	var username = $("#userName").val();
+	var password = $("#password").val();
+	var varUrl = "username="+username+"&password="+password;
+	var url = baseUrl+baseConfig+varUrl; 
+		
+	console.log("URL is: "+url);
+	
+	/* $.ajax({
+		  url: url
+		}).done(function() {
+		  $( this ).addClass( "done" );
+		}); */
+		
+	$.ajax({
+		  contentType : "application/json",
+		  headers: { "Accept": "application/json", "Access-Control-Allow-Origin": *"},
+		  
+		  url: url,
+		  method : "POST",
+		  error : function(error){
+			  console.log("Entered error");
+			  console.log(error);
+		  },
+		  crossDomain: true,
+		  success: function(data){
+			  console.log("Entered success");
+			  console.log(data);
+		  }
+		});
+		
+	/* function error(xhr, status, error){
+		alert("error");
+		
+		alert(status);
+		alert(error.status);
+		
+		var err = eval("(" + xhr.responseText + ")");
+		alert(err.Message);
+	}
+	
+	function success(){
+		alert("success");
+	} */
+		
+}
+/*]]>*/
+</script>
+<title>Home Page</title>
+</head>
+<body>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div>
+					<h1>Login</h1>
+					<form  method="post" id="login" onsubmit="doLogin(); return false;" class="form">
+						<input type="text" id="userName" name="userName" placeholder="Username."
+							class="form-control" style="width: 300px;" /> 
+							<input type="text" id="password" name="password" placeholder="Password."
+							class="form-control" style="width: 300px;" /> <input
+							type="submit" value="Submit" class="btn btn-primary"
+							style="margin-top: 10px;" />
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>
